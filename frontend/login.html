@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs</title>
+  <meta name="description" content="Sign in to your AI-Driven Funding & Scheme Matching account to access government funding opportunities and matched schemes.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <div class="brand-title">Scheme<span>AI</span></div>
+        <span class="brand-badge">SIH 2024</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link" data-i18n="nav.home">Home</a></li>
+          <li><a href="index.html#schemes" class="nav-link" data-i18n="nav.schemes">Schemes</a></li>
+          <li><a href="register.html" class="nav-link" data-i18n="nav.register">Register</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-selector-dropdown" title="Select Language">
+          <span class="lang-selector-icon" aria-hidden="true">🌐</span>
+          <select class="lang-selector-select" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          </select>
+        </div>
+        <a href="register.html" class="btn btn-outline btn-sm" data-i18n="nav.createAccount">Create Account</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Main Content -->
+  <main class="auth-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <span class="badge badge-teal" style="margin-bottom: 0.75rem;" data-i18n="login.portalBadge">Entrepreneur Portal</span>
+        <h1 class="form-title" data-i18n="login.heading">Welcome Back</h1>
+        <p class="form-subtitle" data-i18n="login.subheading">Sign in to your verified enterprise profile</p>
+      </div>
+
+      <!-- Live Error / Info Alert Box -->
+      <div id="loginAlertBox" class="alert-banner alert-danger" style="display: none; margin-bottom: 1.5rem;"></div>
+
+      <form id="loginForm" novalidate>
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="email" class="form-label">
+            <span data-i18n="login.emailLabel">Email Address</span> <span class="required">*</span>
+          </label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            class="form-control" 
+            placeholder="entrepreneur@example.com" 
+            data-i18n-placeholder="login.emailPlaceholder"
+            autocomplete="email"
+            required
+          >
+          <div id="emailFeedback" class="form-feedback"></div>
+        </div>
+
+        <!-- Password Field with Visibility Toggle -->
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+            <label for="password" class="form-label" style="margin-bottom: 0;">
+              <span data-i18n="login.passwordLabel">Password</span> <span class="required">*</span>
+            </label>
+            <a href="#" id="btnForgotPassword" style="font-size: 0.8rem; color: var(--teal-400);">Forgot Password?</a>
+          </div>
+
+          <div style="position: relative;">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-control" 
+              placeholder="Enter your account password" 
+              data-i18n-placeholder="login.passwordPlaceholder"
+              autocomplete="current-password"
+              style="padding-right: 3rem;"
+              required
+            >
+            <button 
+              type="button" 
+              id="togglePasswordBtn" 
+              style="position: absolute; right: 0.85rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--slate-400);"
+              title="Show/Hide Password"
+            >
+              👁️
+            </button>
+          </div>
+          <div id="passwordFeedback" class="form-feedback"></div>
+        </div>
+
+        <!-- Remember Me Checkbox -->
+        <div class="form-group" style="display: flex; align-items: center; justify-content: space-between;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--slate-300); cursor: pointer;">
+            <input type="checkbox" id="rememberMe" style="accent-color: var(--teal-400);">
+            Remember my email
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="btnLoginSubmit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;" data-i18n="login.btnSignIn">
+          Sign In to Dashboard
+        </button>
+
+        <!-- Hackathon Demo Quick Fill Helper -->
+        <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px dashed var(--border-subtle); text-align: center;">
+          <p style="font-size: 0.78rem; color: var(--slate-400); margin-bottom: 0.5rem;">
+            Evaluating for Smart India Hackathon?
+          </p>
+          <button type="button" id="btnFillDemoLogin" class="btn btn-secondary btn-sm" style="font-size: 0.78rem;" data-i18n="login.btnDemo">
+            ⚡ Quick-Fill Demo Account
+          </button>
+        </div>
+
+        <p style="text-align: center; margin-top: 1.75rem; font-size: 0.9rem; color: var(--slate-400);">
+          <span data-i18n="login.noAccount">Don't have an entrepreneur profile?</span> 
+          <a href="register.html" style="font-weight: 600; color: var(--teal-400);" data-i18n="login.registerLink">Register here</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <!-- Forgot Password Modal -->
+  <div class="modal-overlay" id="forgotPasswordModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Reset Your Password</h3>
+        <button type="button" class="modal-close" id="btnCloseForgotModal">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.88rem; color: var(--slate-300); margin-bottom: 1.25rem;">
+          Enter the registered email associated with your AI Funding & Scheme Matcher profile. We will send a secure Supabase password reset link to your inbox.
+        </p>
+        <div class="form-group">
+          <label for="resetEmail" class="form-label">Registered Email</label>
+          <input type="email" id="resetEmail" class="form-control" placeholder="entrepreneur@example.com">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('forgotPasswordModal').classList.remove('open')">Cancel</button>
+        <button type="button" id="btnSendResetLink" class="btn btn-primary btn-sm">Send Reset Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

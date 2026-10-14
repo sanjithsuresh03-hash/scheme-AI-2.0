@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrepreneur Dashboard — AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs</title>
+  <meta name="description" content="Access your personalized affirmative funding scheme dashboard, enterprise readiness scoring, and profile management.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <div class="brand-title">Scheme<span>AI</span></div>
+        <span class="brand-badge">SIH 2024</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link" data-i18n="nav.home">Home</a></li>
+          <li><a href="index.html#schemes" class="nav-link" data-i18n="nav.schemes">Catalog</a></li>
+          <li><a href="dashboard.html" class="nav-link active" data-i18n="nav.dashboard">Dashboard</a></li>
+          <li><a href="roadmap.html" class="nav-link" data-i18n="nav.roadmap">🗺️ Roadmap</a></li>
+          <li><a href="chatbot.html" class="nav-link" style="color: var(--teal-400); font-weight: 600;" data-i18n="nav.chatbot">🤖 AI Assistant</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-selector-dropdown" title="Select Language">
+          <span class="lang-selector-icon" aria-hidden="true">🌐</span>
+          <select class="lang-selector-select" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          </select>
+        </div>
+        <span id="backendStatusBadge" class="badge badge-navy" style="cursor: pointer;" title="Click to test backend API health">
+          Checking Backend...
+        </span>
+        <button type="button" id="btnLogout" class="btn btn-outline btn-sm" data-i18n="nav.signOut">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-layout">
+    <div class="container">
+
+      <!-- Missing Profile Alert (Shown if auth user exists but public.profiles record is missing) -->
+      <div id="missingProfileBanner" class="alert-banner alert-warning" style="display: none;">
+        <div>
+          <strong>⚠️ Incomplete Entrepreneur Profile:</strong>
+          <span>Your account is verified, but your enterprise profile has not been completed yet. Complete registration to unlock AI scheme matching.</span>
+        </div>
+        <a href="register.html" class="btn btn-primary btn-sm">Complete Profile Now</a>
+      </div>
+
+      <!-- Main Dashboard Content -->
+      <div id="dashboardContent">
+        
+        <!-- Dashboard Top Header Strip -->
+        <div class="dashboard-header">
+          <div class="user-welcome-info">
+            <div class="user-avatar" id="dashUserAvatar">E</div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+                <h1 class="welcome-title" id="dashUserName">Loading Profile...</h1>
+                <span id="dashCommunityBadge" class="badge badge-gold">Affirmative Category</span>
+                <span id="dashStageBadge" class="badge badge-teal">Stage</span>
+              </div>
+              <p style="color: var(--slate-400); font-size: 0.9rem;" id="dashUserEmail">
+                entrepreneur@example.com
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="chatbot.html" class="btn btn-secondary btn-sm" style="border-color: rgba(20, 184, 166, 0.4); background: rgba(20, 184, 166, 0.12); color: var(--teal-300); display: inline-flex; align-items: center; gap: 0.35rem;">
+              <span>🤖</span> Ask AI Assistant
+            </a>
+            <button type="button" id="btnPingHealth" class="btn btn-secondary btn-sm">
+              ⚡ Test API Health
+            </button>
+            <button type="button" id="btnEditProfile" class="btn btn-primary btn-sm">
+              ✏️ Edit Profile
+            </button>
+          </div>
+        </div>
+
+        <!-- Affirmative Badges Bar -->
+        <div id="entrepreneurBadges" style="display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;"></div>
+
+        <!-- 2-Column Responsive Dashboard Layout -->
+        <div class="dashboard-grid">
+          
+          <!-- LEFT COLUMN: Profile Details & Enterprise Overview -->
+          <div>
+            <!-- Personal & Demographics Card -->
+            <div class="card" style="margin-bottom: 1.75rem;">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <span>👤</span>
+                  <span data-i18n="dashboard.personalCardTitle">Personal & Demographic Verification</span>
+                </h3>
+                <span class="badge badge-success">RLS Secured</span>
+              </div>
+
+              <div class="profile-details-grid">
+                <div class="detail-item">
+                  <div class="detail-label">Full Legal Name</div>
+                  <div class="detail-value" id="valFullName">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Registered Email</div>
+                  <div class="detail-value" id="valEmail" style="word-break: break-all;">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Mobile Number</div>
+                  <div class="detail-value" id="valMobile">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Age & Gender</div>
+                  <div class="detail-value" id="valAgeGender">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Community Category</div>
+                  <div class="detail-value" id="valCommunity">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Annual Family Income</div>
+                  <div class="detail-value" id="valIncome">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Location (District / State)</div>
+                  <div class="detail-value" id="valLocation">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Education</div>
+                  <div class="detail-value" id="valEducation">—</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Enterprise Readiness & Funding History Card -->
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+            <div class="card" style="margin-bottom: 1.75rem;">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <span>🏢</span>
+                  <span data-i18n="dashboard.enterpriseCardTitle">Enterprise Structure & Funding History</span>
+                </h3>
+                <span class="badge badge-teal">Verified</span>
+              </div>
+
+              <div class="profile-details-grid">
+                <div class="detail-item">
+                  <div class="detail-label">Student Founder</div>
+                  <div class="detail-value" id="valStudent">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Registered Entity</div>
+                  <div class="detail-value" id="valCompany">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">DPIIT Recognized</div>
+                  <div class="detail-value" id="valDpiit">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">First-Time Entrepreneur</div>
+                  <div class="detail-value" id="valFirstTime">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Woman-Led Enterprise</div>
+                  <div class="detail-value" id="valWomanLed">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Prior Govt Subsidies</div>
+                  <div class="detail-value" id="valFunding">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Preferred Stage</div>
+                  <div class="detail-value" id="valStage">—</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- REGISTERED PROJECT SUMMARY CARD (Shown when user has a registered project) -->
+            <div class="card card-elevated" id="projectRegisteredCard" style="display: none; margin-bottom: 1.75rem;">
+              <div class="card-header" style="flex-wrap: wrap; gap: 0.75rem;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <span style="font-size: 1.25rem;">🚀</span>
+                    <h3 class="card-title" id="dashProjectTitle" style="display: inline; margin: 0;">Innovation Project</h3>
+                    <span class="badge badge-teal" id="dashProjectStageBadge">Stage</span>
+                  </div>
+                  <p style="font-size: 0.82rem; color: var(--slate-300); margin-top: 0.25rem;" id="dashProjectCategoryLocation">
+                    Category • Location
+                  </p>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <button type="button" id="btnEditProject" class="btn btn-primary btn-sm">
+                    ✏️ Edit Project
+                  </button>
+                  <button type="button" id="btnRerunMatching" class="btn btn-secondary btn-sm" title="Re-evaluate government scheme matching with current project parameters">
+                    🔄 Re-evaluate
+                  </button>
+                </div>
+              </div>
+
+              <div class="profile-details-grid">
+                <div class="detail-item" style="grid-column: 1 / -1;">
+                  <div class="detail-label">Project Description & Solution</div>
+                  <div class="detail-value" id="valProjectDescription" style="font-weight: 400; line-height: 1.5;">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Funding Requirement</div>
+                  <div class="detail-value" id="valProjectBudget" style="color: var(--teal-300); font-weight: 700;">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Target Beneficiaries / Market</div>
+                  <div class="detail-value" id="valProjectBeneficiaries">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Location (District, State)</div>
+                  <div class="detail-value" id="valProjectLocation">—</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Founder & Team Details</div>
+                  <div class="detail-value" id="valProjectTeam">—</div>
+                </div>
+                <div class="detail-item" id="stageHighlightsContainer" style="grid-column: 1 / -1; background: rgba(14, 131, 136, 0.08); border: 1px dashed rgba(20, 184, 166, 0.3); border-radius: var(--radius-sm); padding: 0.85rem;">
+                  <div class="detail-label" id="stageHighlightsLabel">Stage Milestones</div>
+                  <div class="detail-value" id="valStageHighlights" style="font-size: 0.88rem; margin-top: 0.25rem; font-weight: 400;">—</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROJECT REGISTRATION FORM CARD (Mandatory before scheme matching) -->
+            <div class="card card-elevated" id="projectRegistrationCard" style="margin-bottom: 1.75rem;">
+              <div class="card-header" style="flex-direction: column; align-items: flex-start; gap: 0.35rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 0.5rem;">
+                  <h3 class="card-title">
+                    <span>🚀</span>
+                    <span data-i18n="project.registerHeading">Project Registration</span>
+                  </h3>
+                  <span class="badge badge-gold" id="projectRequiredBadge">Required for Scheme Matching</span>
+                </div>
+                <p style="font-size: 0.84rem; color: var(--slate-300); margin: 0;" data-i18n="project.registerSubtitle">
+                  Government scheme matching is customized to your project's development stage, business category, and location. Select your stage below:
+                </p>
+              </div>
+
+              <!-- Stage Selection Tabs -->
+              <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-sm btn-stage-tab active" id="tabStageIdeation" data-stage="Ideation" style="flex: 1; min-width: 140px; padding: 0.65rem 0.5rem; text-align: center;">
+                  💡 Stage A: Ideation
+                </button>
+                <button type="button" class="btn btn-sm btn-stage-tab" id="tabStagePrototype" data-stage="Prototype / Pilot" style="flex: 1; min-width: 140px; padding: 0.65rem 0.5rem; text-align: center;">
+                  🛠️ Stage B: Prototype / Pilot
+                </button>
+                <button type="button" class="btn btn-sm btn-stage-tab" id="tabStageScaling" data-stage="Scaling / Market Expansion" style="flex: 1; min-width: 140px; padding: 0.65rem 0.5rem; text-align: center;">
+                  📈 Stage C: Scaling / Expansion
+                </button>
+              </div>
+
+              <!-- Stage Notice Callout -->
+              <div id="stageNoticeCallout" class="alert-banner alert-info" style="font-size: 0.82rem; margin-bottom: 1.25rem;">
+                <span>💡 <strong>Ideation Stage:</strong> Focus on problem definition, target customers, and early vision. Prototype details are not required.</span>
+              </div>
+
+              <form id="projectRegistrationForm" novalidate>
+                <input type="hidden" id="regCurrentStage" value="Ideation">
+
+                <!-- Row 1: Title & Category -->
+                <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin: 0;">
+                    <label for="regTitle" class="form-label">
+                      <span>Project / Venture Name</span> <span class="required">*</span>
+                    </label>
+                    <input type="text" id="regTitle" class="form-control" placeholder="e.g., Solar Cold Storage for Agritech" required>
+                  </div>
+                  <div class="form-group" style="margin: 0;">
+                    <label for="regCategory" class="form-label">
+                      <span>Business Category / Sector</span> <span class="required">*</span>
+                    </label>
+                    <select id="regCategory" class="form-control" required>
+                      <option value="">Select Category</option>
+                      <option value="Agritech & Food Processing">Agritech & Food Processing</option>
+                      <option value="Clean Energy & EV">Clean Energy & EV / Sustainability</option>
+                      <option value="Healthcare & Biomedical">Healthcare & Biomedical</option>
+                      <option value="Manufacturing & Hardware">Manufacturing & Hardware</option>
+                      <option value="IT, AI & Software">IT, Software & Deeptech</option>
+                      <option value="Handlooms, Textiles & Crafts">Handlooms, Textiles & Handicrafts</option>
+                      <option value="Retail, Services & Commerce">Retail, Services & Commerce</option>
+                      <option value="Rural Impact & Social Enterprise">Rural Impact & Social Enterprise</option>
+                      <option value="Other Innovative Sector">Other Innovative Sector</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Description / Problem / Solution -->
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label for="regDescription" class="form-label">
+                    <span id="lblDescription">Idea Description & Proposed Solution</span> <span class="required">*</span>
+                  </label>
+                  <textarea id="regDescription" class="form-control" rows="3" placeholder="Describe what your venture does, the core problem you solve, and your solution..." required></textarea>
+                </div>
+
+                <!-- Location (State & District) -->
+                <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin: 0;">
+                    <label for="regState" class="form-label">
+                      <span>Operating State</span> <span class="required">*</span>
+                    </label>
+                    <select id="regState" class="form-control" required>
+                      <option value="Tamil Nadu">Tamil Nadu</option>
+                      <option value="All India">All India / Central</option>
+                      <option value="Karnataka">Karnataka</option>
+                      <option value="Kerala">Kerala</option>
+                      <option value="Andhra Pradesh">Andhra Pradesh</option>
+                      <option value="Telangana">Telangana</option>
+                      <option value="Maharashtra">Maharashtra</option>
+                      <option value="Other State">Other State</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="margin: 0;">
+                    <label for="regDistrict" class="form-label">
+                      <span>District / City</span> <span class="required">*</span>
+                    </label>
+                    <input type="text" id="regDistrict" class="form-control" placeholder="e.g., Coimbatore" required>
+                  </div>
+                </div>
+
+                <!-- Target Beneficiaries & Budget -->
+                <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin: 0;">
+                    <label for="regBeneficiaries" class="form-label">
+                      <span id="lblBeneficiaries">Target Customers / Beneficiaries</span> <span class="required">*</span>
+                    </label>
+                    <input type="text" id="regBeneficiaries" class="form-control" placeholder="e.g., Small farmers, rural retail shops" required>
+                  </div>
+                  <div class="form-group" style="margin: 0;">
+                    <label for="regBudget" class="form-label">
+                      <span>Funding Requirement (₹ INR)</span> <span class="required">*</span>
+                    </label>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+                    <input type="number" id="regBudget" class="form-control" placeholder="e.g., 500000" min="0" required>
+                  </div>
+                </div>
+
+                <!-- Team details -->
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label for="regTeam" class="form-label">
+                    <span>Founder & Team Details</span> <span class="required">*</span>
+                  </label>
+                  <input type="text" id="regTeam" class="form-control" placeholder="e.g., 2 co-founders (B.Tech graduates, 3 years domain experience)" required>
+                </div>
+
+                <!-- STAGE B SPECIFIC FIELDS -->
+                <div id="fieldsStageB" style="display: none; background: rgba(0, 173, 181, 0.05); border: 1px solid rgba(0, 173, 181, 0.2); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1rem;">
+                  <div style="font-weight: 700; color: var(--teal-300); font-size: 0.88rem; margin-bottom: 0.75rem;">
+                    🛠️ Prototype & Pilot Specific Details
+                  </div>
+                  <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regPrototypeStatus" class="form-label">Prototype Development Status <span class="required">*</span></label>
+                      <input type="text" id="regPrototypeStatus" class="form-control" placeholder="e.g., Working MVP tested in lab">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regTechUsed" class="form-label">Technology Stack / Tools Used <span class="required">*</span></label>
+                      <input type="text" id="regTechUsed" class="form-control" placeholder="e.g., Python, IoT, React, Raspberry Pi">
+                    </div>
+                  </div>
+                  <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regTestingStatus" class="form-label">Testing & Pilot Status <span class="required">*</span></label>
+                      <input type="text" id="regTestingStatus" class="form-control" placeholder="e.g., Pilot run completed with 15 users">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regFundingPurpose" class="form-label">Funding Purpose <span class="required">*</span></label>
+                      <input type="text" id="regFundingPurpose" class="form-control" placeholder="e.g., Product testing & pilot deployment">
+                    </div>
+                  </div>
+                  <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regDemoLink" class="form-label">Demo Video / Product Web Link (Optional)</label>
+                      <input type="url" id="regDemoLink" class="form-control" placeholder="https://youtube.com/... or https://demo.app">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regPitchDeck" class="form-label">Pitch Deck URL / Drive Link (Optional)</label>
+                      <input type="url" id="regPitchDeck" class="form-control" placeholder="https://drive.google.com/...">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- STAGE C SPECIFIC FIELDS -->
+                <div id="fieldsStageC" style="display: none; background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1rem;">
+                  <div style="font-weight: 700; color: var(--accent-gold); font-size: 0.88rem; margin-bottom: 0.75rem;">
+                    📈 Scaling & Market Expansion Details
+                  </div>
+                  <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regLaunchStatus" class="form-label">Commercial Launch Status <span class="required">*</span></label>
+                      <input type="text" id="regLaunchStatus" class="form-control" placeholder="e.g., Commercially launched 8 months ago">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regExpansionPlan" class="form-label">Expansion Plan <span class="required">*</span></label>
+                      <input type="text" id="regExpansionPlan" class="form-control" placeholder="e.g., Expanding to 5 Tier-2 cities in TN">
+                    </div>
+                  </div>
+                  <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regRevenue" class="form-label">Monthly / Annual Revenue (Where applicable)</label>
+                      <input type="text" id="regRevenue" class="form-control" placeholder="e.g., ₹1.8 Lakhs monthly run rate">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                      <label for="regCustomers" class="form-label">Active Customers (Where applicable)</label>
+                      <input type="text" id="regCustomers" class="form-control" placeholder="e.g., 250 paying businesses">
+                    </div>
+                  </div>
+                  <div class="form-group" style="margin: 0;">
+                    <label for="regDocsInfo" class="form-label">Supporting Documents & Licences (Optional)</label>
+                    <input type="text" id="regDocsInfo" class="form-control" placeholder="e.g., GST registered, Udyam, audited FY25 financials">
+                  </div>
+                </div>
+
+                <div id="projectFormFeedback" class="form-feedback" style="display: none; margin-bottom: 1rem;"></div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+                  <button type="submit" id="btnSubmitProject" class="btn btn-primary" style="padding: 0.65rem 1.5rem; font-weight: 700;">
+                    Register Project & Match Schemes 🚀
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- PHASE 4: AI-Assisted Government Scheme Matching Dashboard -->
+            <div class="card card-elevated" id="schemeMatchingSection">
+              <div class="card-header" style="flex-wrap: wrap; gap: 0.75rem;">
+                <div>
+                  <h3 class="card-title">
+                    <span>🎯</span>
+                    <span data-i18n="dashboard.matchingCardTitle">AI-Assisted Government Scheme Matching</span>
+                  </h3>
+                  <p style="font-size: 0.83rem; color: var(--slate-300); margin-top: 0.25rem;" data-i18n="dashboard.matchingCardDesc">
+                    Deterministic, explainable profile matching against verified central and state schemes.
+                  </p>
+                </div>
+                <span class="badge badge-teal" id="dashEligibleCount">Evaluating Schemes...</span>
+              </div>
+
+              <!-- Notice shown when project registration is missing -->
+              <div id="projectRequiredNotice" class="alert-banner alert-warning" style="display: none; margin: 1rem 0;">
+                <div>
+                  <strong>📋 Project Registration Required:</strong>
+                  <span>Please complete your innovation project registration above to calculate tailored government scheme matches and subsidies.</span>
+                </div>
+              </div>
+
+              <!-- Inner matching content (hidden if project is not registered) -->
+              <div id="schemeMatchingContent">
+                <!-- Match Summary Metrics Strip -->
+                <div class="match-summary-strip" id="matchSummaryStrip">
+                  <div class="summary-metric-card" style="--metric-accent: var(--teal-400);">
+                    <div class="summary-metric-value" id="metricTotalSchemes">—</div>
+                    <div class="summary-metric-label" data-i18n="dashboard.metricTotal">Total Evaluated</div>
+                  </div>
+                  <div class="summary-metric-card" style="--metric-accent: #10b981;">
+                    <div class="summary-metric-value" id="metricEligible" style="color: #34d399;">—</div>
+                    <div class="summary-metric-label">Likely Match</div>
+                  </div>
+                  <div class="summary-metric-card" style="--metric-accent: var(--teal-400); display: none;">
+                    <div class="summary-metric-value" id="metricPotential" style="color: var(--teal-300);">—</div>
+                    <div class="summary-metric-label">Potential Match</div>
+                  </div>
+                  <div class="summary-metric-card" style="--metric-accent: #f59e0b;">
+                    <div class="summary-metric-value" id="metricNeedsVerification" style="color: #fbbf24;">—</div>
+                    <div class="summary-metric-label">Needs Verification</div>
+                  </div>
+                  <div class="summary-metric-card" style="--metric-accent: #ef4444;">
+                    <div class="summary-metric-value" id="metricNotEligible" style="color: #f87171;">—</div>
+                    <div class="summary-metric-label">Not Eligible</div>
+                  </div>
+                  <div class="summary-metric-card" style="--metric-accent: var(--accent-gold);">
+                    <div class="summary-metric-value" id="metricAvgScore" style="color: var(--accent-gold);">—</div>
+                    <div class="summary-metric-label" data-i18n="dashboard.metricAvgScore">Avg Profile Fit</div>
+                  </div>
+                </div>
+
+                <!-- Compliance Advisory Box -->
+                <div class="compliance-advisory-box" role="note" aria-label="SchemeAI Compliance Advisory">
+                  <span style="font-size: 1.1rem; line-height: 1;">⚖️</span>
+                  <div data-i18n="dashboard.complianceAdvisory">
+                    Official Compliance Advisory: Match scores are profile-fit indicators based on available data, not official eligibility probabilities or funding guarantees. Missing profile information is never treated as proof of eligibility. If a criterion is unverified or unknown, it is strictly flagged as “Needs verification”. Always confirm specific guidelines and cohort deadlines on official portals before applying.
+                  </div>
+                </div>
+
+                <!-- Search and Filter Toolbar -->
+                <div class="filter-search-toolbar">
+                  <div class="search-input-wrap">
+                    <span class="search-icon" aria-hidden="true">🔍</span>
+                    <input type="text" id="schemeSearchInput" class="form-control" placeholder="Search by scheme name, provider department, or benefits..." data-i18n-placeholder="dashboard.searchPlaceholder" aria-label="Search government schemes">
+                  </div>
+
+                  <div class="filter-controls-row">
+                    <div class="filter-group">
+                      <label for="filterFundingType" data-i18n="dashboard.filterFundingType">Funding Type</label>
+                      <select id="filterFundingType" class="filter-select">
+                        <option value="all" data-i18n="dashboard.filterAllFunding">All Funding Types</option>
+                        <option value="grant">Grant / Equity-Free</option>
+                        <option value="loan">Subsidized Loan / Debt</option>
+                        <option value="subsidy">Capital / Margin Subsidy</option>
+                        <option value="equity">Equity Investment</option>
+                      </select>
+                    </div>
+
+                    <div class="filter-group">
+                      <label for="filterGovernment" data-i18n="dashboard.filterGov">Government Scope</label>
+                      <select id="filterGovernment" class="filter-select">
+                        <option value="all" data-i18n="dashboard.filterAllGov">All Levels (Central & TN)</option>
+                        <option value="Central">Central Government</option>
+                        <option value="Tamil Nadu">Tamil Nadu State</option>
+                      </select>
+                    </div>
+
+                    <div class="filter-group">
+                      <label for="filterEligibilityStatus" data-i18n="dashboard.filterStatus">Eligibility Status</label>
+                      <select id="filterEligibilityStatus" class="filter-select">
+                        <option value="all" data-i18n="dashboard.filterAllStatus">All Match Statuses</option>
+                        <option value="Likely Match">Likely Match</option>
+                        <option value="Needs verification">Needs verification</option>
+                        <option value="Not eligible">Not eligible</option>
+                      </select>
+                    </div>
+
+                    <button type="button" id="btnResetFilters" class="btn btn-outline btn-filter-reset">
+                      <span>↺</span>
+                      <span data-i18n="dashboard.resetFilters">Reset</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Matched Schemes Cards Container (Up to 15 per page) -->
+                <div id="eligibleSchemesContainer" class="scheme-cards-container" aria-live="polite">
+                  <!-- Skeletons rendered by default -->
+                  <div class="scheme-skeleton">
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+                    <div class="skeleton-line skeleton-title"></div>
+                    <div class="skeleton-line" style="width: 40%;"></div>
+                    <div class="skeleton-box"></div>
+                    <div class="skeleton-line" style="width: 80%;"></div>
+                  </div>
+                </div>
+
+                <!-- Pagination & Verified Coverage Strip -->
+                <div id="schemePaginationBar" style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); flex-wrap: wrap; gap: 0.75rem;">
+                  <div style="font-size: 0.85rem; color: var(--slate-300);" id="schemePaginationInfo">
+                    Showing 1–15 of 22 verified government schemes
+                  </div>
+                  <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                    <div id="paginationNavControls" style="display: flex; gap: 0.35rem; align-items: center;">
+                      <button type="button" id="btnPrevPage" class="btn btn-outline btn-sm" style="padding: 0.35rem 0.65rem;" title="Previous Page">‹ Prev</button>
+                      <div id="paginationPagePills" style="display: flex; gap: 0.25rem; align-items: center;"></div>
+                      <button type="button" id="btnNextPage" class="btn btn-outline btn-sm" style="padding: 0.35rem 0.65rem;" title="Next Page">Next ›</button>
+                    </div>
+                    <button type="button" id="btnLoadMoreSchemes" class="btn btn-primary btn-sm" style="display: none; padding: 0.35rem 0.85rem;">
+                      Load More Schemes
+                    </button>
+                    <span id="dbCoverageBadge" class="badge badge-teal" style="font-size: 0.75rem;">Verified Database: 22 Schemes</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN: AI Readiness & Backend Status Widgets -->
+          <div>
+            
+            <!-- AI Eligibility Readiness Card (Phase 2 Preview) -->
+            <div class="card card-elevated" style="margin-bottom: 1.75rem;">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <span>🤖</span>
+                  <span>AI Scheme Readiness</span>
+                </h3>
+                <span class="badge badge-teal">Phase 1 Active</span>
+              </div>
+              
+              <div style="text-align: center; padding: 1.25rem 0;">
+                <div style="font-size: 3rem; font-weight: 800; font-family: var(--font-heading); color: var(--teal-400);">
+                  94<span style="font-size: 1.5rem; color: var(--slate-400);">/100</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--slate-300); margin-top: 0.25rem;">
+                  Profile Completeness & Quota Eligibility Score
+                </p>
+              </div>
+
+              <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem; font-size: 0.82rem; color: var(--slate-300);">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                  <span>Demographic Quota Fit</span>
+                  <span style="color: var(--color-success); font-weight: 700;">100% (SC/ST/OBC)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                  <span>Margin Money Subsidy Tier</span>
+                  <span style="color: var(--teal-300); font-weight: 700;">Tier 1 (Up to 35%)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span>Future Gemini Chatbot</span>
+                  <span style="color: var(--accent-gold); font-weight: 700;">Configured for Phase 2</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Architecture & Token Verification Panel -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <span>🔒</span>
+                  <span>Security & Token Architecture</span>
+                </h3>
+              </div>
+              <ul style="list-style: none; font-size: 0.82rem; color: var(--slate-300); display: flex; flex-direction: column; gap: 0.75rem;">
+                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                  <span>✓</span>
+                  <span><strong>Cryptographic Tokens:</strong> Frontend retrieves Bearer access tokens from Supabase Auth.</span>
+                </li>
+                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                  <span>✓</span>
+                  <span><strong>FastAPI Verification:</strong> The Python backend derives user identity strictly from token claims; never browser parameters.</span>
+                </li>
+                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                  <span>✓</span>
+                  <span><strong>PostgreSQL RLS:</strong> Row Level Security policies prevent cross-tenant data access.</span>
+                </li>
+                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                  <span>✓</span>
+                  <span><strong>Zero Aadhaar:</strong> Strictly zero Aadhaar retention policy enforced.</span>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div class="modal-overlay" id="editProfileModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Entrepreneur Profile</h3>
+        <button type="button" class="modal-close" id="btnCloseEditModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="editFullName" class="form-label">Full Name</label>
+          <input type="text" id="editFullName" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="editIncome" class="form-label">Annual Family Income (INR ₹)</label>
+          <input type="number" id="editIncome" class="form-control" min="0">
+        </div>
+        <div class="form-group">
+          <label for="editDistrict" class="form-label">District</label>
+          <input type="text" id="editDistrict" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="editFunding" class="form-label">Prior Govt Subsidies (in ₹ Lakhs)</label>
+          <input type="number" id="editFunding" class="form-control" min="0" step="0.1">
+        </div>
+        <div class="form-group">
+          <label for="editStage" class="form-label">Preferred Stage</label>
+          <select id="editStage" class="form-control">
+            <option value="Let AI Suggest">Let AI Suggest</option>
+            <option value="Stage 1">Stage 1 (Ideation)</option>
+            <option value="Stage 2">Stage 2 (Pilot)</option>
+            <option value="Stage 3">Stage 3 (Scaling)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('editProfileModal').classList.remove('open')">Cancel</button>
+        <button type="button" id="btnSaveProfileChanges" class="btn btn-primary btn-sm">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Project Modal -->
+  <div class="modal-overlay" id="editProjectModal" role="dialog" aria-modal="true">
+    <div class="modal-dialog" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header">
+        <h3 class="modal-title">✏️ Edit Registered Project Details</h3>
+        <button type="button" class="modal-close" id="btnCloseEditProjectModal">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="editProjectForm" novalidate>
+          <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+            <div class="form-group" style="margin: 0;">
+              <label for="editProjectTitle" class="form-label">Project Name</label>
+              <input type="text" id="editProjectTitle" class="form-control" required>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label for="editProjectCategory" class="form-label">Business Sector</label>
+              <select id="editProjectCategory" class="form-control" required>
+                <option value="Agritech & Food Processing">Agritech & Food Processing</option>
+                <option value="Clean Energy & EV">Clean Energy & EV / Sustainability</option>
+                <option value="Healthcare & Biomedical">Healthcare & Biomedical</option>
+                <option value="Manufacturing & Hardware">Manufacturing & Hardware</option>
+                <option value="IT, AI & Software">IT, Software & Deeptech</option>
+                <option value="Handlooms, Textiles & Crafts">Handlooms, Textiles & Handicrafts</option>
+                <option value="Retail, Services & Commerce">Retail, Services & Commerce</option>
+                <option value="Rural Impact & Social Enterprise">Rural Impact & Social Enterprise</option>
+                <option value="Other Innovative Sector">Other Innovative Sector</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+            <div class="form-group" style="margin: 0;">
+              <label for="editProjectStage" class="form-label">Project Stage</label>
+              <select id="editProjectStage" class="form-control" required>
+                <option value="Ideation">Stage A: Ideation</option>
+                <option value="Prototype / Pilot">Stage B: Prototype / Pilot</option>
+                <option value="Scaling / Market Expansion">Stage C: Scaling / Market Expansion</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label for="editProjectBudget" class="form-label">Funding Requirement (₹)</label>
+              <input type="number" id="editProjectBudget" class="form-control" min="0" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.85rem;">
+            <label for="editProjectDescription" class="form-label">Project Description / Solution</label>
+            <textarea id="editProjectDescription" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+            <div class="form-group" style="margin: 0;">
+              <label for="editProjectBeneficiaries" class="form-label">Target Beneficiaries / Customers</label>
+              <input type="text" id="editProjectBeneficiaries" class="form-control">
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label for="editProjectDistrict" class="form-label">District / City</label>
+              <input type="text" id="editProjectDistrict" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.85rem;">
+            <label for="editProjectTeam" class="form-label">Team & Founder Details</label>
+            <input type="text" id="editProjectTeam" class="form-control">
+          </div>
+
+          <!-- Stage B Fields in Edit Modal -->
+          <div id="editStageBFields" style="display: none; background: rgba(0, 173, 181, 0.05); padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 0.85rem;">
+            <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.5rem;">
+              <div class="form-group" style="margin: 0;">
+                <label for="editPrototypeStatus" class="form-label">Prototype Status</label>
+                <input type="text" id="editPrototypeStatus" class="form-control">
+              </div>
+              <div class="form-group" style="margin: 0;">
+                <label for="editTechUsed" class="form-label">Technology Used</label>
+                <input type="text" id="editTechUsed" class="form-control">
+              </div>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label for="editTestingStatus" class="form-label">Testing / Pilot Status</label>
+              <input type="text" id="editTestingStatus" class="form-control">
+            </div>
+          </div>
+
+          <!-- Stage C Fields in Edit Modal -->
+          <div id="editStageCFields" style="display: none; background: rgba(245, 158, 11, 0.05); padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 0.85rem;">
+            <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 0.5rem;">
+              <div class="form-group" style="margin: 0;">
+                <label for="editLaunchStatus" class="form-label">Commercial Launch Status</label>
+                <input type="text" id="editLaunchStatus" class="form-control">
+              </div>
+              <div class="form-group" style="margin: 0;">
+                <label for="editExpansionPlan" class="form-label">Expansion Plan</label>
+                <input type="text" id="editExpansionPlan" class="form-control">
+              </div>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label for="editRevenue" class="form-label">Revenue & Traction Information</label>
+              <input type="text" id="editRevenue" class="form-control">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" id="btnCancelEditProject">Cancel</button>
+        <button type="button" id="btnSaveProjectChanges" class="btn btn-primary btn-sm">Save & Re-run Scheme Matching 🔄</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scheme Details Dossier Modal -->
+  <div class="modal-overlay" id="schemeDetailsModal" role="dialog" aria-modal="true" aria-labelledby="modalSchemeTitle">
+    <div class="modal-dialog" style="max-width: 720px; max-height: 90vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div>
+          <span id="modalSchemeProvider" style="font-size: 0.75rem; text-transform: uppercase; color: var(--slate-400); letter-spacing: 0.05em; font-weight: 600;"></span>
+          <h3 class="modal-title" id="modalSchemeTitle" style="margin-top: 0.2rem; color: #ffffff;"></h3>
+        </div>
+        <button type="button" class="modal-close" id="btnCloseSchemeModal" aria-label="Close modal">×</button>
+      </div>
+      <div class="modal-body" id="modalSchemeBody" style="overflow-y: auto; padding-right: 0.75rem;">
+        <!-- Safely injected via safe DOM creation -->
+      </div>
+      <div class="modal-footer" id="modalSchemeFooter">
+        <button type="button" class="btn btn-outline btn-sm" id="btnDismissSchemeModal">Close</button>
+        <a id="modalRoadmapBtn" href="roadmap.html" class="btn btn-secondary btn-sm" style="border-color: rgba(20, 184, 166, 0.4); color: var(--teal-300);">
+          <span>🗺️ Roadmap & Checklist</span>
+        </a>
+        <a id="modalChatbotBtn" href="chatbot.html" class="btn btn-secondary btn-sm" style="border-color: rgba(20, 184, 166, 0.4); color: var(--teal-300);">
+          <span>🤖 Ask AI Assistant</span>
+        </a>
+        <a id="modalOfficialPortalBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+          <span>Apply on Official Portal</span>
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backend Health Diagnostic Modal -->
+  <div class="modal-overlay" id="backendHealthModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">FastAPI Backend Health Status</h3>
+        <button type="button" class="modal-close" id="btnCloseHealthModal">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--slate-300); margin-bottom: 0.75rem;">
+          Diagnostic output from Python FastAPI endpoint <code>GET /api/health</code>:
+        </p>
+        <pre id="healthCheckOutput" style="background: var(--navy-900); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; font-size: 0.82rem; color: var(--teal-200); max-height: 240px; overflow-y: auto; border: 1px solid var(--border-subtle);"></pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('backendHealthModal').classList.remove('open')">Close</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="testBackendHealth()">Ping Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
+
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

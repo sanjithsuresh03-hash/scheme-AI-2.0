@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini AI Scheme Assistant — SchemeAI</title>
+  <meta name="description" content="Official AI Assistant for government schemes, grants, and subsidies. Supporting English, Tamil, and Tanglish with factual grounding.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body style="background: var(--navy-950); min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="dashboard.html" class="brand" aria-label="SchemeAI Home">
+        <div class="brand-logo" aria-hidden="true">🏛️</div>
+        <div class="brand-text">
+          <span class="brand-title">SchemeAI</span>
+          <span class="brand-subtitle">Gemini Assistant • Phase 5</span>
+        </div>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="lang-selector-dropdown" title="Select Language">
+          <span class="lang-selector-icon" aria-hidden="true">🌐</span>
+          <select class="lang-selector-select" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          </select>
+        </div>
+
+        <span class="badge badge-teal" id="backendStatusBadge">Checking AI Backend...</span>
+        
+        <a href="roadmap.html" class="btn btn-outline btn-sm">
+          <span>🗺️</span>
+          <span data-i18n="nav.roadmap">Roadmap</span>
+        </a>
+
+        <a href="dashboard.html" class="btn btn-outline btn-sm">
+          <span>📊</span>
+          <span data-i18n="nav.dashboard">Dashboard</span>
+        </a>
+
+        <button type="button" id="btnLogout" class="btn btn-sm btn-outline" style="border-color: rgba(239, 68, 68, 0.4); color: #f87171;" data-i18n="nav.signOut">
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CHAT APPLICATION WORKSPACE -->
+  <main class="chat-app-wrapper" role="main">
+
+    <!-- SIDEBAR: Conversation History Drawer -->
+    <aside class="chat-sidebar" id="chatSidebar" aria-label="Conversation History">
+      <div class="chat-sidebar-header">
+        <button type="button" id="btnNewChat" class="btn btn-primary btn-new-chat">
+          <span>＋</span>
+          <span data-i18n="chatbot.newChat">New Conversation</span>
+        </button>
+      </div>
+
+      <div style="padding: 0.75rem 1rem 0.25rem 1rem;">
+        <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-400); font-weight: 700;" data-i18n="chatbot.previousInquiries">
+          Previous Inquiries
+        </span>
+      </div>
+
+      <div class="conversations-list" id="conversationsList" role="navigation" aria-label="Chat threads">
+        <!-- Dynamically rendered threads -->
+      </div>
+
+      <div style="padding: 0.85rem 1rem; border-top: 1px solid var(--border-subtle); font-size: 0.75rem; color: var(--slate-400);">
+        <div data-i18n="chatbot.userIsolation">🔒 End-to-End User Isolation</div>
+        <div style="font-size: 0.7rem; margin-top: 0.15rem; color: var(--slate-500);" data-i18n="chatbot.rlsProtected">Row-Level Security Protected</div>
+      </div>
+    </aside>
+
+    <!-- MAIN CHAT STAGE -->
+    <section class="chat-main-stage" aria-label="Chat Discussion">
+
+      <!-- Chat Top Toolbar -->
+      <div class="chat-stage-header">
+        <div class="chat-header-left">
+          <button type="button" id="btnToggleSidebar" class="btn-sidebar-toggle" aria-label="Toggle chat history drawer">
+            <span>☰</span>
+          </button>
+          <div class="chat-title-group">
+            <h4 id="chatThreadTitle" data-i18n="chatbot.title">SchemeAI Gemini Assistant</h4>
+            <span data-i18n="chatbot.subtitle">Factual Grounding • English, தமிழ் & Regional Languages</span>
+          </div>
+        </div>
+
+        <div class="chat-header-actions">
+          <label for="selectLanguage" class="visually-hidden">Language Preference</label>
+          <select id="selectLanguage" class="lang-select-pill" title="Response Language Preference">
+            <option value="en">English</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          </select>
+          <button type="button" id="btnClearChat" class="btn btn-outline btn-sm" style="font-size: 0.78rem; padding: 0.35rem 0.65rem; border-color: rgba(255, 255, 255, 0.2);" title="Clear current conversation">
+            <span data-i18n="chatbot.clearChat">🗑️ Clear</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages Scroll Area -->
+      <div class="chat-messages-scroll" id="chatMessagesScroll" aria-live="polite">
+
+        <!-- Welcome Box with Suggested Questions -->
+        <div class="chat-welcome-box" id="chatWelcomeBox">
+          <div class="chat-welcome-avatar" aria-hidden="true">🤖</div>
+          <h3 class="chat-welcome-title" data-i18n="chatbot.welcomeTitle">Welcome to SchemeAI Assistant</h3>
+          <p class="chat-welcome-desc" data-i18n="chatbot.welcomeDesc">
+            I am your intelligent project development mentor and government scheme advisor. Ask for project guidance, technical roadmaps, debugging help, or government funding schemes in your preferred language.
+          </p>
+
+          <div class="suggested-prompts-title" data-i18n="chatbot.suggestedTitle">Suggested Inquiries</div>
+          <div class="suggested-prompts-grid">
+            <button type="button" class="suggested-prompt-btn" data-prompt="Help me develop my project.">
+              <span data-i18n="chatbot.prompt1">Help me develop my project.</span>
+              <span>↗</span>
+            </button>
+            <button type="button" class="suggested-prompt-btn" data-prompt="Suggest features for my project.">
+              <span data-i18n="chatbot.prompt2">Suggest features for my project.</span>
+              <span>↗</span>
+            </button>
+            <button type="button" class="suggested-prompt-btn" data-prompt="Create a step-by-step development roadmap.">
+              <span data-i18n="chatbot.prompt3">Create a step-by-step development roadmap.</span>
+              <span>↗</span>
+            </button>
+            <button type="button" class="suggested-prompt-btn" data-prompt="Help me fix a coding error.">
+              <span data-i18n="chatbot.prompt4">Help me fix a coding error.</span>
+              <span>↗</span>
+            </button>
+            <button type="button" class="suggested-prompt-btn" data-prompt="Recommend a suitable technology stack.">
+              <span data-i18n="chatbot.prompt5">Recommend a suitable technology stack.</span>
+              <span>↗</span>
+            </button>
+            <button type="button" class="suggested-prompt-btn" data-prompt="Find government schemes for my business.">
+              <span data-i18n="chatbot.prompt6">Find government schemes for my business.</span>
+              <span>↗</span>
+            </button>
+            <button type="button" class="suggested-prompt-btn" data-prompt="Explain eligibility and required documents.">
+              <span data-i18n="chatbot.prompt7">Explain eligibility and required documents.</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat messages dynamically rendered safely here -->
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+
+      </div>
+
+      <!-- Error Toast Banner -->
+      <div id="chatErrorToast" class="chat-error-toast" style="display: none; margin: 0 1.25rem 0.5rem 1.25rem;" role="alert">
+        <span id="chatErrorMessage">Unable to reach the assistant service.</span>
+        <button type="button" id="btnRetryChat" class="btn btn-outline btn-sm" style="color: #ffffff; border-color: rgba(255, 255, 255, 0.4);" data-i18n="chatbot.retry">Retry</button>
+      </div>
+
+      <!-- Chat Input Area -->
+      <div class="chat-input-stage">
+        <!-- Voice Recognition Status Banner -->
+        <div id="voiceStatusBar" class="voice-status-bar" style="display: none;" role="status" aria-live="polite">
+          <div class="voice-status-left">
+            <span id="voiceIndicatorDot" class="voice-indicator-dot" aria-hidden="true"></span>
+            <span id="voiceStatusText">Listening in English... Speak your question</span>
+          </div>
+          <button type="button" id="btnStopVoice" class="btn-stop-voice" title="Stop voice recognition">✕ Stop</button>
+        </div>
+
+        <form id="chatForm" class="chat-input-container">
+          <label for="chatInput" class="visually-hidden">Type your scheme inquiry</label>
+          <textarea
+            id="chatInput"
+            class="chat-textarea"
+            rows="1"
+            maxlength="2000"
+            placeholder="Ask about schemes, subsidies, or eligibility in English, தமிழ், or Tanglish..."
+            data-i18n-placeholder="chatbot.inputPlaceholder"
+            aria-label="Scheme query input"
+            required
+          ></textarea>
+
+          <button type="button" id="btnMicVoiceInput" class="btn-chat-mic" aria-label="Voice input (Speak your inquiry)" title="Click to speak (English or தமிழ்)">
+            <span id="micIcon" aria-hidden="true">🎤</span>
+          </button>
+
+          <button type="submit" id="btnSendChat" class="btn-chat-send" aria-label="Send query">
+            <span style="font-size: 1.1rem; line-height: 1;">➤</span>
+          </button>
+        </form>
+
+        <div class="chat-input-footer-hint">
+          <span data-i18n="chatbot.footerHint">Press Enter to send, Shift + Enter for line break</span>
+          <span id="charCounter">0 / 2000</span>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/chatbot.js"></script>
+</body>
+</html>
+
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

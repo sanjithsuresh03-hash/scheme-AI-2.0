@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Roadmap & Checklist — AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs</title>
+  <meta name="description" content="Track your verified government scheme application roadmap, manage document readiness checklists, and inspect eligibility gap analysis.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <div class="brand-title">Scheme<span>AI</span></div>
+        <span class="brand-badge">SIH 2024</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link" data-i18n="nav.home">Home</a></li>
+          <li><a href="index.html#schemes" class="nav-link" data-i18n="nav.schemes">Catalog</a></li>
+          <li><a href="dashboard.html" class="nav-link" data-i18n="nav.dashboard">Dashboard</a></li>
+          <li><a href="roadmap.html" class="nav-link active" data-i18n="nav.roadmap">🗺️ Roadmap</a></li>
+          <li><a href="chatbot.html" class="nav-link" style="color: var(--teal-400); font-weight: 600;" data-i18n="nav.chatbot">🤖 AI Assistant</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-selector-dropdown" title="Select Language">
+          <span class="lang-selector-icon" aria-hidden="true">🌐</span>
+          <select class="lang-selector-select" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          </select>
+        </div>
+        <span id="backendStatusBadge" class="badge badge-navy" style="cursor: pointer;" title="Click to test backend API health">
+          Checking Backend...
+        </span>
+        <button type="button" id="btnLogout" class="btn btn-outline btn-sm" data-i18n="nav.signOut">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-layout">
+    <div class="container">
+
+      <!-- Scheme Selector & Header Strip -->
+      <section class="card" style="margin-bottom: 1.5rem; padding: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+              <span id="schemeProviderBadge" class="badge badge-navy">Central Government</span>
+              <span id="schemeFundingTypeBadge" class="badge badge-teal">Seed Grant</span>
+              <span id="schemeScopeBadge" class="badge badge-gold">Verified Scheme</span>
+            </div>
+            <h1 id="schemeTitleHeading" class="welcome-title" style="margin-bottom: 0.4rem;">
+              Loading Scheme Roadmap...
+            </h1>
+            <p id="schemeBenefitDesc" style="color: var(--teal-200); font-size: 0.88rem; max-width: 820px; margin: 0;">
+              Fetching verified scheme records...
+            </p>
+          </div>
+
+          <!-- Scheme Dropdown Switcher -->
+          <div style="min-width: 260px; flex: 0 1 320px;">
+            <label for="schemeSelector" style="font-size: 0.76rem; text-transform: uppercase; color: var(--slate-400); font-weight: 700; letter-spacing: 0.05em; display: block; margin-bottom: 0.35rem;" data-i18n="roadmap.selectScheme">
+              Select Scheme to Track
+            </label>
+            <select id="schemeSelector" class="form-input" style="background: var(--navy-900); color: #ffffff; font-weight: 600;" aria-label="Select government scheme">
+              <option value="sisfs">Startup India Seed Fund Scheme (SISFS)</option>
+              <option value="nidhi_prayas">NIDHI-PRAYAS (DST Prototype Grant)</option>
+              <option value="tanseed">TANSEED (StartupTN)</option>
+              <option value="tn_scst_fund">Tamil Nadu SC/ST Startup Fund</option>
+              <option value="pmegp">Prime Minister Employment Generation (PMEGP)</option>
+              <option value="mudra">PM Mudra Yojana (PMMY)</option>
+              <option value="supi">Stand-Up India (SIDBI)</option>
+              <option value="needs">NEEDS (Tamil Nadu)</option>
+              <option value="uyegp">UYEGP (Tamil Nadu)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Official Link Strip -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); flex-wrap: wrap; gap: 0.75rem;">
+          <div id="officialPortalStatusWrap" style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.86rem;">
+            <span style="color: var(--slate-400);" data-i18n="roadmap.officialPortal">Official Application Portal:</span>
+            <a id="schemeOfficialPortalLink" href="#" target="_blank" rel="noopener noreferrer" class="badge badge-success" style="text-decoration: none; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.3rem;">
+              <span id="officialLinkText">Verifying...</span>
+              <span>↗</span>
+            </a>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <a id="btnAskAssistantForScheme" href="chatbot.html" class="btn btn-secondary btn-sm" style="border-color: rgba(20, 184, 166, 0.4); color: var(--teal-300);">
+              <span>🤖</span> <span data-i18n="roadmap.chatAssistant">Chat with Assistant</span>
+            </a>
+            <a href="dashboard.html" class="btn btn-outline btn-sm">
+              <span data-i18n="roadmap.backDashboard">← Back to Dashboard</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Phase 6 Tab Navigation -->
+      <nav class="roadmap-tabs-bar" role="tablist" aria-label="Phase 6 Navigation Tabs">
+        <button type="button" class="roadmap-tab-btn active" id="tabBtnRoadmap" role="tab" aria-selected="true" aria-controls="viewRoadmap">
+          <span>🚀</span>
+          <span data-i18n="roadmap.tabRoadmap">Application Roadmap (விண்ணப்ப வழித்தடம்)</span>
+        </button>
+        <button type="button" class="roadmap-tab-btn" id="tabBtnChecklist" role="tab" aria-selected="false" aria-controls="viewChecklist">
+          <span>📋</span>
+          <span data-i18n="roadmap.tabChecklist">Document Checklist (ஆவண சரிபார்ப்பு)</span>
+        </button>
+        <button type="button" class="roadmap-tab-btn" id="tabBtnGapAnalysis" role="tab" aria-selected="false" aria-controls="viewGapAnalysis">
+          <span>🔍</span>
+          <span data-i18n="roadmap.tabGap">Eligibility Gap Analysis (தகுதி பகுப்பாய்வு)</span>
+        </button>
+      </nav>
+
+      <!-- Notification Toast -->
+      <div id="actionToast" class="action-toast" style="display: none;" role="status" aria-live="polite">
+        <span id="actionToastMessage">Progress updated successfully.</span>
+      </div>
+
+      <!-- VIEW 1: Application Roadmap -->
+      <section id="viewRoadmap" class="roadmap-view-panel" role="tabpanel" aria-labelledby="tabBtnRoadmap">
+        <!-- Progress Summary Bar -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <span style="font-size: 0.76rem; text-transform: uppercase; color: var(--slate-400); font-weight: 700; letter-spacing: 0.05em;" data-i18n="roadmap.milestoneCompletion">Application Milestone Completion</span>
+              <h3 style="color: #ffffff; margin: 0.2rem 0 0 0; font-size: 1.15rem;">
+                <span data-i18n="roadmap.overallProgress">Overall Roadmap Progress:</span> <span id="roadmapProgressPercent" style="color: var(--teal-400);">0%</span>
+              </h3>
+            </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+              <span id="roadmapStatusBadge" class="badge badge-teal">Not started</span>
+              <span id="roadmapLastUpdated" style="font-size: 0.75rem; color: var(--slate-400);">Last updated: Just now</span>
+            </div>
+          </div>
+
+          <!-- Progress Bar Meter -->
+          <div class="roadmap-progress-bar-track">
+            <div id="roadmapProgressBarFill" class="roadmap-progress-bar-fill" style="width: 0%;"></div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.78rem; color: var(--slate-400);">
+            <span id="roadmapStepsCounter">0 of 0 Steps Completed</span>
+            <span>Persisted directly to Supabase</span>
+          </div>
+        </div>
+
+        <!-- Roadmap Timeline Container -->
+        <div id="roadmapTimelineContainer" class="roadmap-timeline">
+          <!-- Step cards will be safely injected here via safe DOM rendering -->
+        </div>
+
+        <!-- Factual Disclaimer Card -->
+        <div class="alert-banner" style="background: rgba(30, 41, 59, 0.6); border: 1px solid var(--border-subtle); margin-top: 1.5rem; color: var(--slate-300);">
+          <div style="font-size: 0.85rem;">
+            <strong>ℹ️ Grounded Roadmap Notice:</strong> Application steps reflect official guidelines from verified notifications. Completing steps does not guarantee government sanction or funding approval. Always submit your application on the official portal.
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: Document Checklist -->
+      <section id="viewChecklist" class="roadmap-view-panel" style="display: none;" role="tabpanel" aria-labelledby="tabBtnChecklist">
+        <!-- Readiness Counter Strip -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <span style="font-size: 0.76rem; text-transform: uppercase; color: var(--slate-400); font-weight: 700; letter-spacing: 0.05em;">Document Readiness Assessment</span>
+              <h3 style="color: #ffffff; margin: 0.2rem 0 0 0; font-size: 1.15rem;">
+                Document Readiness: <span id="checklistReadyPercent" style="color: var(--teal-400);">0%</span>
+              </h3>
+            </div>
+            <div class="checklist-summary-badges">
+              <span id="badgeReadyCount" class="badge badge-success">0 Ready</span>
+              <span id="badgeAttentionCount" class="badge badge-gold">0 Needs Attention</span>
+              <span id="badgeVerificationCount" class="badge badge-teal">0 Needs Verification</span>
+              <span id="badgeNotCheckedCount" class="badge badge-navy">0 Not Checked</span>
+            </div>
+          </div>
+
+          <div class="roadmap-progress-bar-track" style="margin-top: 0.85rem;">
+            <div id="checklistProgressBarFill" class="roadmap-progress-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Strict Privacy Callout Banner -->
+        <div class="alert-banner alert-warning" style="margin-bottom: 1.5rem;">
+          <div>
+            <strong>🛡️ Strict Privacy Policy:</strong>
+            <span>You can track document readiness without uploading files. AI Funding & Scheme Matcher will NEVER ask for or store Aadhaar numbers, bank credentials, passwords, or identity card scans.</span>
+          </div>
+        </div>
+
+        <!-- Checklist Items Container -->
+        <div id="checklistItemsContainer" class="checklist-grid">
+          <!-- Document cards safely injected here -->
+        </div>
+      </section>
+
+      <!-- VIEW 3: Eligibility Gap Analysis -->
+      <section id="viewGapAnalysis" class="roadmap-view-panel" style="display: none;" role="tabpanel" aria-labelledby="tabBtnGapAnalysis">
+        <!-- Verdict Summary Card -->
+        <div id="gapVerdictCard" class="card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--teal-400);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <span style="font-size: 0.76rem; text-transform: uppercase; color: var(--slate-400); font-weight: 700; letter-spacing: 0.05em;">Profile Comparison Verdict</span>
+              <h3 id="gapVerdictTitle" style="color: #ffffff; margin: 0.2rem 0 0 0; font-size: 1.25rem;">
+                Evaluating Profile Against Scheme Rules...
+              </h3>
+            </div>
+            <span id="gapVerdictStatusBadge" class="badge badge-teal">Evaluating</span>
+          </div>
+          <p id="gapVerdictDesc" style="color: var(--slate-300); font-size: 0.88rem; margin: 0.5rem 0 0 0;">
+            Deterministic comparison against verified rules for this scheme.
+          </p>
+        </div>
+
+        <!-- 4-Section Gap Breakdown Grid -->
+        <div class="gap-analysis-grid">
+          
+          <!-- 1. Satisfied Requirements -->
+          <div class="gap-column-card">
+            <div class="gap-column-header header-satisfied">
+              <span style="font-size: 1.1rem;">✅</span>
+              <div>
+                <h4>Satisfied Requirements</h4>
+                <span>Rules met based on available profile data</span>
+              </div>
+            </div>
+            <div id="satisfiedList" class="gap-items-list">
+              <!-- Safely injected -->
+            </div>
+          </div>
+
+          <!-- 2. Unsatisfied Requirements -->
+          <div class="gap-column-card">
+            <div class="gap-column-header header-unsatisfied">
+              <span style="font-size: 1.1rem;">❌</span>
+              <div>
+                <h4>Eligibility Gaps</h4>
+                <span>Rules not met based on reliable criteria</span>
+              </div>
+            </div>
+            <div id="unsatisfiedList" class="gap-items-list">
+              <!-- Safely injected -->
+            </div>
+          </div>
+
+          <!-- 3. Missing Profile Information -->
+          <div class="gap-column-card">
+            <div class="gap-column-header header-missing">
+              <span style="font-size: 1.1rem;">⚠️</span>
+              <div>
+                <h4>Missing Information</h4>
+                <span>Data required to determine eligibility</span>
+              </div>
+            </div>
+            <div id="missingList" class="gap-items-list">
+              <!-- Safely injected -->
+            </div>
+          </div>
+
+          <!-- 4. Needs Official Verification -->
+          <div class="gap-column-card">
+            <div class="gap-column-header header-verification">
+              <span style="font-size: 1.1rem;">🏛️</span>
+              <div>
+                <h4>Official Verifications</h4>
+                <span>Requires institutional interview / jury</span>
+              </div>
+            </div>
+            <div id="verificationList" class="gap-items-list">
+              <!-- Safely injected -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Practical Next Steps Card -->
+        <div class="card" style="margin-top: 1.5rem;">
+          <h4 style="color: #ffffff; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+            <span>📌</span>
+            <span>Practical Next Steps (நடைமுறை அடுத்த படிகள்)</span>
+          </h4>
+          <ol id="practicalNextStepsList" class="practical-steps-list">
+            <!-- Safely injected -->
+          </ol>
+        </div>
+
+        <!-- Prominent Gap Analysis Disclaimer -->
+        <div class="alert-banner" style="background: rgba(30, 41, 59, 0.6); border: 1px solid var(--border-subtle); margin-top: 1.25rem; color: var(--slate-300);">
+          <div style="font-size: 0.85rem;" id="gapAnalysisDisclaimer">
+            <strong>⚖️ Legal & Compliance Disclaimer:</strong> This gap analysis compares your saved profile attributes against published official rules for guidance only. It does not constitute government approval or guarantee funding sanction. Never alter personal background, demographic category, or identity data to force eligibility.
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/roadmap.js"></script>
+</body>
+</html>

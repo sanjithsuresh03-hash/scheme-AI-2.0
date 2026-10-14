@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Registration — AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs</title>
+  <meta name="description"
+    content="Register your enterprise profile on SchemeAI for AI-driven affirmative scheme matching and funding discovery.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <div class="brand-title">Scheme<span>AI</span></div>
+        <span class="brand-badge">SIH 2024</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link" data-i18n="nav.home">Home</a></li>
+          <li><a href="index.html#schemes" class="nav-link" data-i18n="nav.schemes">Schemes</a></li>
+          <li><a href="login.html" class="nav-link" data-i18n="nav.signIn">Sign In</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-selector-dropdown" title="Select Language">
+          <span class="lang-selector-icon" aria-hidden="true">🌐</span>
+          <select class="lang-selector-select" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          </select>
+        </div>
+        <a href="login.html" class="btn btn-outline btn-sm" data-i18n="nav.signIn">Already Registered?</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Registration Main Container -->
+  <main class="auth-wrapper">
+    <div class="form-card form-card-wide">
+      <div class="form-header">
+        <span class="badge badge-teal" style="margin-bottom: 0.75rem;">Phase 1 • Entrepreneur Onboarding</span>
+        <h1 class="form-title" data-i18n="register.heading">Create Entrepreneur Profile</h1>
+        <p class="form-subtitle" data-i18n="register.subheading">Register to unlock personalized affirmative funding schemes across Central & State
+          governments</p>
+      </div>
+
+      <!-- Privacy Notice -->
+      <div class="alert-banner alert-info" style="font-size: 0.82rem; margin-bottom: 2rem;">
+        <span>🔒 <strong>Privacy Assurance:</strong> AI Funding & Scheme Matcher never collects or stores Aadhaar numbers or identity
+          document scans. Your data is protected by Supabase PostgreSQL Row Level Security.</span>
+      </div>
+
+      <!-- Live Registration Feedback Alert Boxes -->
+      <div id="registerAlertBox" class="alert-banner alert-danger" style="display: none; margin-bottom: 1.5rem;"
+        role="alert"></div>
+      <div id="registerSuccessBox" class="alert-banner alert-success" style="display: none; margin-bottom: 1.5rem;"
+        role="alert"></div>
+
+      <!-- Multi-Step Progress Indicator -->
+      <div class="form-progress">
+        <div class="progress-step active" id="stepIndicator1">
+          <div class="step-indicator">1</div>
+          <span class="step-label-text" data-i18n="register.step1">Credentials</span>
+        </div>
+        <div class="progress-step" id="stepIndicator2">
+          <div class="step-indicator">2</div>
+          <span class="step-label-text" data-i18n="register.step2">Demographics</span>
+        </div>
+        <div class="progress-step" id="stepIndicator3">
+          <div class="step-indicator">3</div>
+          <span class="step-label-text" data-i18n="register.step3">Enterprise</span>
+        </div>
+      </div>
+
+      <form id="registrationForm" novalidate>
+
+        <!-- ================================================================
+             STEP 1: Account & Credentials
+             ================================================================ -->
+        <div id="formStep1">
+          <h3 style="font-size: 1.15rem; margin-bottom: 1.25rem; color: var(--teal-300);" data-i18n="register.step1Title">
+            Step 1: Account Credentials & Identity
+          </h3>
+
+          <div class="form-row">
+            <!-- Full Name -->
+            <div class="form-group">
+              <label for="fullName" class="form-label">
+                <span data-i18n="register.fullNameLabel">Full Legal Name</span> <span class="required">*</span>
+              </label>
+              <input type="text" id="fullName" class="form-control" placeholder="e.g., Pooja Rameshwaram" data-i18n-placeholder="register.fullNamePlaceholder" required>
+              <div id="fullNameFeedback" class="form-feedback"></div>
+            </div>
+
+            <!-- Email Address -->
+            <div class="form-group">
+              <label for="email" class="form-label">
+                <span data-i18n="login.emailLabel">Email Address</span> <span class="required">*</span>
+              </label>
+              <input type="email" id="email" class="form-control" placeholder="pooja@example.com" data-i18n-placeholder="login.emailPlaceholder" required>
+              <div id="emailFeedback" class="form-feedback"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- Mobile Number -->
+            <div class="form-group">
+              <label for="mobileNumber" class="form-label">
+                <span data-i18n="register.mobileLabel">10-Digit Mobile Number</span> <span class="required">*</span>
+              </label>
+              <div style="display: flex; gap: 0.5rem;">
+                <span
+                  style="padding: 0.75rem 0.85rem; background: var(--navy-900); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: var(--radius-md); font-size: 0.95rem; color: var(--slate-300);">+91</span>
+                <input type="tel" id="mobileNumber" class="form-control" placeholder="9876543210" data-i18n-placeholder="register.mobilePlaceholder" maxlength="10"
+                  required>
+              </div>
+              <div id="mobileNumberFeedback" class="form-feedback"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- Password -->
+            <div class="form-group">
+              <label for="password" class="form-label">
+                <span data-i18n="login.passwordLabel">Create Password</span> <span class="required">*</span>
+              </label>
+              <input type="password" id="password" class="form-control" placeholder="Minimum 8 characters" data-i18n-placeholder="login.passwordPlaceholder" required>
+              <div class="password-meter">
+                <div id="pwdMeterBar" class="password-meter-bar"></div>
+              </div>
+              <p class="form-helper" data-i18n="register.passwordHelper">Use at least 8 characters with letters, numbers, and symbols.</p>
+              <div id="passwordFeedback" class="form-feedback"></div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label">
+                <span data-i18n="register.confirmPasswordLabel">Confirm Password</span> <span class="required">*</span>
+              </label>
+              <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter your password" data-i18n-placeholder="register.confirmPasswordPlaceholder"
+                required>
+              <div id="confirmPasswordFeedback" class="form-feedback"></div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+            <button type="button" id="btnStep1Next" class="btn btn-primary" data-i18n="register.btnStep1Next">
+              Continue to Demographics →
+            </button>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             STEP 2: Demographics & Community
+             ================================================================ -->
+        <div id="formStep2" style="display: none;">
+          <h3 style="font-size: 1.15rem; margin-bottom: 1.25rem; color: var(--teal-300);">
+            Step 2: Social Category & Demographic Details
+          </h3>
+
+          <div class="form-row">
+            <!-- Age -->
+            <div class="form-group">
+              <label for="age" class="form-label">
+                <span data-i18n="register.ageLabel">Age (Years)</span> <span class="required">*</span>
+              </label>
+              <input type="number" id="age" class="form-control" placeholder="28" min="18" max="120" required>
+              <div id="ageFeedback" class="form-feedback"></div>
+            </div>
+
+            <!-- Gender -->
+            <div class="form-group">
+              <label for="gender" class="form-label">
+                <span data-i18n="register.genderLabel">Gender</span> <span class="required">*</span>
+              </label>
+              <select id="gender" class="form-control" required>
+                <option value="">Select Gender</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Transgender">Transgender</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+                <option value="Other">Other</option>
+              </select>
+              <div id="genderFeedback" class="form-feedback"></div>
+            </div>
+
+            <!-- Community -->
+            <div class="form-group">
+              <label for="community" class="form-label">
+                <span data-i18n="register.communityLabel">Community / Social Category</span> <span class="required">*</span>
+              </label>
+              <select id="community" class="form-control" required>
+                <option value="">Select Category</option>
+                <option value="SC">SC (Scheduled Caste)</option>
+                <option value="ST">ST (Scheduled Tribe)</option>
+                <option value="MBC">MBC (Most Backward Class)</option>
+                <option value="BC">BC (Backward Class / OBC)</option>
+                <option value="OC">OC / General Category</option>
+                <option value="Other">Other</option>
+              </select>
+              <p class="form-helper">Crucial for affirmative quotas (Stand-Up India, PMEGP 35% subsidy).</p>
+              <div id="communityFeedback" class="form-feedback"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- Annual Income -->
+            <div class="form-group">
+              <label for="annualIncome" class="form-label">
+                <span data-i18n="register.incomeLabel">Annual Family Income (INR ₹)</span> <span class="required">*</span>
+              </label>
+              <input type="number" id="annualIncome" class="form-control" placeholder="e.g., 250000" min="0" step="1000"
+                required>
+              <p class="form-helper">Determines BPL / Priority Affirmative Tier subsidy rates.</p>
+              <div id="annualIncomeFeedback" class="form-feedback"></div>
+            </div>
+
+            <!-- Education -->
+            <div class="form-group">
+              <label for="education" class="form-label">
+                <span data-i18n="register.educationLabel">Highest Education Level</span> <span class="required">*</span>
+              </label>
+              <select id="education" class="form-control" required>
+                <option value="">Select Education</option>
+                <option value="Degree">Degree (Graduation / Post-Grad)</option>
+                <option value="Diploma">Diploma (Polytechnic / Technical)</option>
+                <option value="ITI">ITI (Vocational Training)</option>
+                <option value="Other">Other (School / Informal Skill)</option>
+              </select>
+              <div id="educationFeedback" class="form-feedback"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- State -->
+            <div class="form-group">
+              <label for="state" class="form-label">
+                <span data-i18n="register.stateLabel">State / Union Territory</span> <span class="required">*</span>
+              </label>
+              <select id="state" class="form-control" required>
+                <option value="">Select State</option>
+              </select>
+              <div id="stateFeedback" class="form-feedback"></div>
+            </div>
+
+            <!-- District -->
+            <div class="form-group">
+              <label for="district" class="form-label">
+                <span data-i18n="register.districtLabel">District</span> <span class="required">*</span>
+              </label>
+              <input type="text" id="district" class="form-control" placeholder="e.g., Coimbatore" required>
+              <div id="districtFeedback" class="form-feedback"></div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+            <button type="button" id="btnStep2Back" class="btn btn-outline" data-i18n="register.btnBack">
+              ← Back
+            </button>
+            <button type="button" id="btnStep2Next" class="btn btn-primary" data-i18n="register.btnStep2Next">
+              Continue to Enterprise Profile →
+            </button>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             STEP 3: Enterprise & Funding Details
+             ================================================================ -->
+        <div id="formStep3" style="display: none;">
+          <h3 style="font-size: 1.15rem; margin-bottom: 1.25rem; color: var(--teal-300);" data-i18n="register.step3Title">
+            Step 3: Enterprise Details & Funding Background
+          </h3>
+
+          <div class="form-row">
+            <!-- Student -->
+            <div class="form-group">
+              <label class="form-label" data-i18n="register.studentLabel">Are you currently a Student?</label>
+              <div class="toggle-group">
+                <div class="toggle-option">
+                  <input type="radio" name="isStudent" id="studentNo" value="no" checked>
+                  <label for="studentNo" class="toggle-label">No</label>
+                </div>
+                <div class="toggle-option">
+                  <input type="radio" name="isStudent" id="studentYes" value="yes">
+                  <label for="studentYes" class="toggle-label">Yes</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Registered Company -->
+            <div class="form-group">
+              <label class="form-label" data-i18n="register.companyLabel">Is the enterprise a registered company?</label>
+              <div class="toggle-group">
+                <div class="toggle-option">
+                  <input type="radio" name="isRegisteredCompany" id="regCoNo" value="no" checked>
+                  <label for="regCoNo" class="toggle-label">No (Proprietary / Idea)</label>
+                </div>
+                <div class="toggle-option">
+                  <input type="radio" name="isRegisteredCompany" id="regCoYes" value="yes">
+                  <label for="regCoYes" class="toggle-label">Yes (Pvt Ltd / LLP / OPC)</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- DPIIT Recognized -->
+            <div class="form-group">
+              <label class="form-label" data-i18n="register.dpiitLabel">DPIIT Recognised Startup?</label>
+              <div class="toggle-group">
+                <div class="toggle-option">
+                  <input type="radio" name="isDpiitRecognised" id="dpiitNo" value="no" checked>
+                  <label for="dpiitNo" class="toggle-label">No</label>
+                </div>
+                <div class="toggle-option">
+                  <input type="radio" name="isDpiitRecognised" id="dpiitYes" value="yes">
+                  <label for="dpiitYes" class="toggle-label">Yes (DPIIT ID)</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- First-time Entrepreneur -->
+            <div class="form-group">
+              <label class="form-label" data-i18n="register.firstGenLabel">First-Time Entrepreneur?</label>
+              <div class="toggle-group">
+                <div class="toggle-option">
+                  <input type="radio" name="isFirstTimeEntrepreneur" id="firstTimeYes" value="yes" checked>
+                  <label for="firstTimeYes" class="toggle-label">Yes (1st Gen)</label>
+                </div>
+                <div class="toggle-option">
+                  <input type="radio" name="isFirstTimeEntrepreneur" id="firstTimeNo" value="no">
+                  <label for="firstTimeNo" class="toggle-label">No</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- Woman-led enterprise -->
+            <div class="form-group">
+              <label class="form-label" data-i18n="register.womanLabel">Woman-Led Enterprise (≥51% equity)?</label>
+              <div class="toggle-group">
+                <div class="toggle-option">
+                  <input type="radio" name="isWomanLed" id="womanLedNo" value="no" checked>
+                  <label for="womanLedNo" class="toggle-label">No</label>
+                </div>
+                <div class="toggle-option">
+                  <input type="radio" name="isWomanLed" id="womanLedYes" value="yes">
+                  <label for="womanLedYes" class="toggle-label">Yes</label>
+                </div>
+              </div>
+              <p class="form-helper">Unlocks Stand-Up India and TREAD special grants.</p>
+            </div>
+
+            <!-- Existing Government Funding in Lakhs -->
+            <div class="form-group">
+              <label for="existingGovtFunding" class="form-label">
+                <span data-i18n="register.priorFundingLabel">Prior Govt Funding Received (in ₹ Lakhs)</span>
+              </label>
+              <input type="number" id="existingGovtFunding" class="form-control" placeholder="0.00" min="0" step="0.1"
+                value="0.00" required>
+              <p class="form-helper">Enter 0 if you haven't received prior government subsidies.</p>
+              <div id="existingGovtFundingFeedback" class="form-feedback"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- Preferred Stage -->
+            <div class="form-group">
+              <label for="preferredStage" class="form-label">
+                <span data-i18n="register.stageLabel">Preferred Enterprise Stage</span> <span class="required">*</span>
+              </label>
+              <select id="preferredStage" class="form-control" required>
+                <option value="Let AI Suggest">Let AI Suggest (Recommended)</option>
+                <option value="Stage 1">Stage 1 — Ideation & Prototyping</option>
+                <option value="Stage 2">Stage 2 — Early Traction & Pilot</option>
+                <option value="Stage 3">Stage 3 — Growth & Scaling</option>
+              </select>
+              <div id="preferredStageFeedback" class="form-feedback"></div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; margin-top: 1.75rem;">
+            <button type="button" id="btnStep3Back" class="btn btn-outline" data-i18n="register.btnBack">
+              ← Back
+            </button>
+            <button type="button" id="btnStep3Submit" class="btn btn-primary btn-lg" data-i18n="register.btnRegister">
+              Proceed to Verification & Submit 🚀
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- ================================================================
+       MOCK OTP DEMO MODAL (Hackathon Demonstration Compliance)
+       Explicitly labelled: Does not verify real mobile ownership.
+       ================================================================ -->
+  <div class="modal-overlay" id="otpDemoModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Mobile Verification</h3>
+        <button type="button" class="modal-close" id="btnCloseOtpModal">×</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- MANDATORY DISCLAIMER -->
+        <div class="demo-disclaimer-box">
+          ⚠️ <strong>[DEMO ONLY] Mock SMS Verification for Hackathon Demonstration:</strong><br>
+          This is a simulated verification component designed for hackathon judges to preview the mobile workflow. It
+          does <em>not</em> send a real telecom SMS or verify actual mobile device ownership.
+        </div>
+
+        <p style="font-size: 0.88rem; color: var(--slate-300); text-align: center;">
+          Simulated OTP sent to <strong id="demoMobileDisplay" style="color: var(--teal-400);">+91 9876543210</strong>
+        </p>
+
+        <!-- Simulated OTP code banner -->
+        <div style="text-align: center; margin-top: 0.75rem;">
+          <span style="font-size: 0.8rem; color: var(--slate-400);">Simulated OTP Code: </span>
+          <strong id="demoOtpCode"
+            style="color: var(--accent-gold); letter-spacing: 0.15em; font-size: 1.15rem;">582491</strong>
+        </div>
+
+        <div class="otp-boxes">
+          <input type="text" maxlength="1" class="otp-input otp-digit" id="otp1">
+          <input type="text" maxlength="1" class="otp-input otp-digit" id="otp2">
+          <input type="text" maxlength="1" class="otp-input otp-digit" id="otp3">
+          <input type="text" maxlength="1" class="otp-input otp-digit" id="otp4">
+          <input type="text" maxlength="1" class="otp-input otp-digit" id="otp5">
+          <input type="text" maxlength="1" class="otp-input otp-digit" id="otp6">
+        </div>
+
+        <div style="text-align: center;">
+          <button type="button" id="btnFillDemoOtp" class="btn btn-outline btn-sm" style="font-size: 0.75rem;">
+            Auto-Fill Simulated OTP
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm"
+          onclick="document.getElementById('otpDemoModal').classList.remove('open')">Cancel</button>
+        <button type="button" id="btnVerifyAndRegister" class="btn btn-primary btn-sm">
+          Verify & Complete Registration
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email Confirmation Notification Modal (if Supabase email confirmation is enabled) -->
+  <div class="modal-overlay" id="emailConfirmationModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Verification Email Sent</h3>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">✉️</div>
+        <h4 style="margin-bottom: 0.5rem; color: #ffffff;">Please Confirm Your Email</h4>
+        <p style="font-size: 0.88rem; color: var(--slate-300); line-height: 1.5; margin-bottom: 1rem;">
+          A verification link has been sent to <strong id="confirmedEmailTarget" style="color: var(--teal-400);">your
+            email</strong>.
+        </p>
+        <div class="alert-banner alert-warning" style="font-size: 0.8rem; text-align: left;">
+          ℹ️ Your Supabase Auth instance has <strong>Email Confirmation</strong> enabled. Click the link in your email
+          to activate your account, then sign in to access your profile.
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <a href="login.html" class="btn btn-primary">Go to Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/register.js"></script>
+</body>
+
+</html>
