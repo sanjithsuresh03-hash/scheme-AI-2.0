@@ -1,6 +1,6 @@
 /**
  * SchemeAI — Login & Password Reset Controller (Phase 1)
- * Smart India Hackathon: AI-Driven Funding & Scheme Matching
+ * AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
  * 
  * Handles entrepreneur authentication via Supabase Auth,
  * password reset requests, and handles email verification edge cases.

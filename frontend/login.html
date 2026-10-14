@@ -16,7 +16,6 @@
       <a href="index.html" class="brand-logo">
         <div class="brand-icon">S</div>
         <div class="brand-title">Scheme<span>AI</span></div>
-        <span class="brand-badge">SIH 2024</span>
       </a>
 
       <nav>
@@ -24,10 +23,16 @@
           <li><a href="index.html" class="nav-link" data-i18n="nav.home">Home</a></li>
           <li><a href="index.html#schemes" class="nav-link" data-i18n="nav.schemes">Schemes</a></li>
           <li><a href="register.html" class="nav-link" data-i18n="nav.register">Register</a></li>
+          <li><a href="login.html" class="nav-link active" data-i18n="nav.signIn">Sign In</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
+        <a href="chatbot.html" class="btn btn-outline btn-sm btn-ai-nav" id="navLinkChatbot" data-i18n="nav.chatbot" title="Chat with AI Scheme Assistant">
+          <span aria-hidden="true">🤖</span>
+          <span>AI Assistant</span>
+        </a>
+
         <div class="lang-selector-dropdown" title="Select Language">
           <span class="lang-selector-icon" aria-hidden="true">🌐</span>
           <select class="lang-selector-select" aria-label="Select Language">
@@ -121,10 +126,10 @@
           Sign In to Dashboard
         </button>
 
-        <!-- Hackathon Demo Quick Fill Helper -->
+        <!-- Demo Quick Fill Helper -->
         <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px dashed var(--border-subtle); text-align: center;">
-          <p style="font-size: 0.78rem; color: var(--slate-400); margin-bottom: 0.5rem;">
-            Evaluating for Smart India Hackathon?
+          <p style="font-size: 0.78rem; color: var(--slate-400); margin-bottom: 0.5rem;" data-i18n="login.evaluatingSih">
+            Evaluating this platform?
           </p>
           <button type="button" id="btnFillDemoLogin" class="btn btn-secondary btn-sm" style="font-size: 0.78rem;" data-i18n="login.btnDemo">
             ⚡ Quick-Fill Demo Account

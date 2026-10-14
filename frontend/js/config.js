@@ -1,6 +1,6 @@
 /**
  * SchemeAI — Frontend Configuration (Phase 1)
- * Smart India Hackathon: AI-Driven Funding & Scheme Matching
+ * AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
  * 
  * STRICT SECURITY POLICY:
  * 1. Only the Supabase Publishable / Anon key is permitted in the browser.

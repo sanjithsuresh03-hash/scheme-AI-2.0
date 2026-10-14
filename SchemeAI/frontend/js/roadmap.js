@@ -1,6 +1,6 @@
 /**
  * SchemeAI — Application Roadmap, Document Checklist, and Gap Analysis Controller (Phase 6)
- * Smart India Hackathon: AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
+ * AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
  * 
  * STRICT PRINCIPLES:
  * 1. Safe DOM Rendering: Absolutely zero untrusted innerHTML injection.

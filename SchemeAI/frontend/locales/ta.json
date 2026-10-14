@@ -16,7 +16,7 @@
     "alreadyRegistered": "ஏற்கனவே பதிந்தவரா?"
   },
   "home": {
-    "pill": "Smart India Hackathon • விளிம்புநிலை தொழில்முனைவோர் மேம்பாடு",
+    "pill": "விளிம்புநிலை தொழில்முனைவோர் மேம்பாடு",
     "heroTitle": "விளிம்புநிலை தொழில்முனைவோருக்கான <br><span class=\"gradient-text\">AI திட்ட பொருத்தம் மற்றும் நிதி உதவி</span>",
     "heroSubtitle": "மத்திய மற்றும் மாநில அரசுகளின் திட்டங்கள் மூலம் <strong>SC, ST, OBC, MBC, மகளிர்</strong> மற்றும் முதல் தலைமுறை தொழில்முனைவோரின் பொருளாதார வளர்ச்சியை விரைவுபடுத்துகிறது.",
     "ctaRegister": "உங்கள் நிறுவனத்தை பதியவும்",
@@ -49,10 +49,10 @@
     "securityHeading": "ஆதார் சேகரிப்பு இல்லை & முழு தரவு இறையாண்மை",
     "securityDesc": "தனியுரிமை ஒழுங்குமுறை தரநிலைகளை கண்டிப்பாக பின்பற்றி, <strong>AI Funding & Scheme Matcher ஆதார் எண்களையோ ஆவண நகல்களையோ ஒருபோதும் கேட்பதில்லை</strong>. அனைத்து விவரங்களும் பயனரின் ஒப்புதலுடன் மட்டுமே பயன்படுத்தப்படுகின்றன.",
     "securityCta": "இலவச சுயவிவரம் தொடங்க",
-    "footerDesc": "Smart India Hackathon-க்காக உருவாக்கப்பட்ட சமூக நீதி தொழில்முனைவோர் தளம். இந்திய அளவிலான நிதி வாய்ப்புகளை இணைக்கிறது.",
+    "footerDesc": "அரசு நிதி வாய்ப்புகளை விளிம்புநிலை தொழில்முனைவோருடன் இணைக்கும் சமூக நீதி தளம்.",
     "footerNav": "விரைவு இணைப்புகள்",
     "footerGov": "அரசு இணையதளங்கள்",
-    "footerCopy": "© 2026 AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs • Smart India Hackathon திட்டம். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+    "footerCopy": "© 2026 AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
     "footerBuilt": "FastAPI, Supabase Auth & PostgreSQL, Vanilla JS மூலம் உருவாக்கப்பட்டது."
   },
   "login": {
@@ -67,7 +67,7 @@
     "forgotPassword": "கடவுச்சொல் மறந்துவிட்டதா?",
     "rememberMe": "என் மின்னஞ்சலை நினைவில் கொள்க",
     "btnSignIn": "டாஷ்போர்டில் உள்நுழைக",
-    "evaluatingSih": "Smart India Hackathon மதிப்பீடா?",
+    "evaluatingSih": "தளத்தை மதிப்பீடு செய்கிறீர்களா?",
     "btnDemo": "⚡ டெமோ கணக்கில் உடனடி உள்நுழைவு",
     "noAccount": "தொழில்முனைவோர் சுயவிவரம் இல்லையா?",
     "registerLink": "இங்கே பதிவு செய்க",

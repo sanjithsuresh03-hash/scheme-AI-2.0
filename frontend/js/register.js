@@ -1,6 +1,6 @@
 /**
  * SchemeAI — Registration Form Controller (Phase 1)
- * Smart India Hackathon: AI-Driven Funding & Scheme Matching
+ * AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
  * 
  * Manages multi-step entrepreneur registration, field validations,
  * mock OTP verification demo, and Supabase profile creation.

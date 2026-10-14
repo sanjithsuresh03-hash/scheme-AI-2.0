@@ -16,7 +16,7 @@
     "alreadyRegistered": "Already Registered?"
   },
   "home": {
-    "pill": "Smart India Hackathon • Empowering Marginalized Entrepreneurs",
+    "pill": "Empowering Marginalized Entrepreneurs",
     "heroTitle": "AI-Driven Funding & Scheme Matching for <br><span class=\"gradient-text\">Marginalized Entrepreneurs</span>",
     "heroSubtitle": "Accelerating economic sovereignty for <strong>SC, ST, OBC, MBC, Women</strong>, and first-generation founders across Bharat through intelligent government scheme eligibility matching and subsidy discovery.",
     "ctaRegister": "Register Your Enterprise",
@@ -49,10 +49,10 @@
     "securityHeading": "Zero Aadhaar Collection & Absolute Data Sovereignty",
     "securityDesc": "In strict adherence to regulatory privacy standards, <strong>AI Funding & Scheme Matcher never asks for, collects, or stores Aadhaar numbers</strong> or physical document scans. All demographic fields are used solely for affirmative benefit computation under the user's explicit consent.",
     "securityCta": "Create Free Profile",
-    "footerDesc": "An affirmative entrepreneurship platform engineered for Smart India Hackathon. Bridging central and state funding opportunities to marginalized innovators across India.",
+    "footerDesc": "An affirmative entrepreneurship platform bridging central and state funding opportunities to marginalized innovators across India.",
     "footerNav": "Quick Navigation",
     "footerGov": "Government Links",
-    "footerCopy": "© 2026 AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs • Smart India Hackathon Project. All rights reserved.",
+    "footerCopy": "© 2026 AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs. All rights reserved.",
     "footerBuilt": "Built with FastAPI, Supabase Auth & PostgreSQL, Vanilla JS."
   },
   "login": {
@@ -67,7 +67,7 @@
     "forgotPassword": "Forgot Password?",
     "rememberMe": "Remember my email",
     "btnSignIn": "Sign In to Dashboard",
-    "evaluatingSih": "Evaluating for Smart India Hackathon?",
+    "evaluatingSih": "Evaluating this platform?",
     "btnDemo": "⚡ Quick-Fill Demo Account",
     "noAccount": "Don't have an entrepreneur profile?",
     "registerLink": "Register here",

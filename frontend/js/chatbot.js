@@ -1,6 +1,6 @@
 /**
  * SchemeAI — Phase 5 Gemini AI Scheme Assistant Chatbot Controller
- * Smart India Hackathon: AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
+ * AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
  * 
  * Capabilities:
  * - Session authentication via Supabase Auth

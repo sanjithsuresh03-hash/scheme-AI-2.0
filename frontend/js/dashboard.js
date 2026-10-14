@@ -1,6 +1,6 @@
 /**
  * SchemeAI — Dashboard Controller (Phase 4: AI-Assisted Government Scheme Matching)
- * Smart India Hackathon: AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
+ * AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
  * 
  * Capabilities:
  * - Authenticated session verification via Supabase Auth

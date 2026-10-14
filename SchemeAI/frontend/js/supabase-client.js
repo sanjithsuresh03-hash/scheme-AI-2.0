@@ -1,6 +1,6 @@
 /**
  * SchemeAI — Supabase JavaScript Client Initializer (Phase 1)
- * Smart India Hackathon: AI-Driven Funding & Scheme Matching
+ * AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
  * 
  * Uses the official Supabase JavaScript SDK (@supabase/supabase-js)
  * strictly using the public anon/publishable key and project URL.

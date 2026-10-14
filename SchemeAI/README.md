@@ -199,3 +199,7 @@ Open your browser and navigate to:
 - **Privacy First:** Zero Aadhaar collection policy.
 - **Zero-Trust Backend:** Token verification ensures private profile data is never exposed.
 - **Modern Aesthetics:** Tailored Navy-Blue and Teal theme with glassmorphism, responsive cards, and micro-interactions.
+#   s c h e m e - A I - 2 . 0  
+ #   s c h e m e A I - 2 . o  
+ #   S c h e m e -  
+ 

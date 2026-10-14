@@ -1,6 +1,6 @@
 /**
  * SchemeAI — Authentication Module (Phase 1)
- * Smart India Hackathon: AI-Driven Funding & Scheme Matching
+ * AI-Driven Funding & Scheme Matching for Marginalized Entrepreneurs
  * 
  * Handles Supabase Auth registration, login, session persistence,
  * password reset, and route protection.
